@@ -11,14 +11,17 @@ import com.creepercountry.main.Adjuster;
 public class ADJPlayerListener implements Listener
 {
 	
-    private ADJPlugin plugin;
+    /**
+     * The Adjuster instance
+     */
+    private Adjuster adj;
 
 	public ADJPlayerListener(ADJPlugin plugin)
     {
         this.plugin = plugin;
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event)
     {
         if(event.getMessage().toLowerCase().startsWith("/pl ") || event.getMessage().toLowerCase().endsWith("plugin") || event.getMessage().toLowerCase().startsWith("/ver") || event.getMessage().toLowerCase().contains("gc") || event.getMessage().toLowerCase().endsWith("version"))
@@ -26,11 +29,11 @@ public class ADJPlayerListener implements Listener
             if(event.getPlayer().isPermissionSet("pluginspy.allow"))
                 if(!event.getPlayer().isOp());
             event.setCancelled(true);
-            log.warning((new StringBuilder()).append(event.getPlayer()).append(" was denied access to ").append(event.getMessage()).toString());
+            adj.log((new StringBuilder()).append(event.getPlayer()).append(" was denied access to ").append(event.getMessage()).toString());
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlayerCommandPreprocessHigh(PlayerCommandPreprocessEvent event)
     {
         if(event.getMessage().toLowerCase().startsWith("/reload"))
