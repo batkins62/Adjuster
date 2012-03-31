@@ -56,7 +56,7 @@ public class ADJPlugin extends JavaPlugin
     	
     	// check for required plugins, then load our plugin.
     	checkForPlugins();
-       	load();
+       	adj.load();
     	
        	// register commands & listeners
         registerEvents();
@@ -110,6 +110,17 @@ public class ADJPlugin extends JavaPlugin
     	getCommand("quest start piratebooty").setExecutor(ADJExecutor);
     	//executors for ranking verification
     	
+    }
+    
+    /**
+     * Check for required plugins to be loaded
+     */
+    private void checkForPlugins()
+    {
+    	//lwc
+    	//logblock
+    	//towny
+    	//essentials
     }
     
     /**

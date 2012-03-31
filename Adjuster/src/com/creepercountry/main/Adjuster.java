@@ -65,6 +65,14 @@ public class Adjuster
     }
     
     /**
+     *  load the plugin for full use
+     */
+    public void load()
+    {
+    	//load the plugin the rest of the way
+    }
+    
+    /**
      * disable this plugin when onDisable fails first time
      */
     public void destruct()
