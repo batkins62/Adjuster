@@ -76,8 +76,8 @@ public class Adjuster
     	// then check if any schedular tasks are running
     	if (!plugin.getServer().getScheduler().getPendingTasks().isEmpty())
     		plugin.getServer().getScheduler().cancelTasks(plugin);
-    	// try disabling plugin again
-    	if (plugin.isEnabled())
+    	// try disabling plugin... again
+    	if (plugin.isEnabled() || plugin.isInitialized() || plugin.isNaggable())
     		plugin.getPluginLoader().disablePlugin(plugin);
     	severe("Destructed, No further checks available");
     }

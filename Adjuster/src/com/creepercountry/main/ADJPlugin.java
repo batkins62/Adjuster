@@ -44,6 +44,7 @@ public class ADJPlugin extends JavaPlugin
     public void onLoad()
     {
     	// first load data
+    	// check for pex, then confirm with log, or destruct
     }
     
     @Override
@@ -104,9 +105,11 @@ public class ADJPlugin extends JavaPlugin
     	getCommand("reload confirm").setExecutor(ADJExecutor);
     	getCommand("adjuster report").setExecutor(ADJExecutor);
     	getCommand("cuff").setExecutor(ADJExecutor);
-    	getCommand("adjuster stop").setExecutor(ADJExecutor);
-    	getCommand("adjuster start").setExecutor(ADJExecutor);
     	getCommand("troll").setExecutor(ADJExecutor);
+    	//executors for quest playing
+    	getCommand("quest start piratebooty").setExecutor(ADJExecutor);
+    	//executors for ranking verification
+    	
     }
     
     /**
