@@ -1,0 +1,51 @@
+// Decompiled by DJ v3.12.12.96 Copyright 2011 Atanas Neshkov  Date: 3/9/2012 9:12:11 PM
+// Home Page: http://members.fortunecity.com/neshkov/dj.html http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   SimplePluginSpy.java
+
+package com.stealth62.SimplePluginSpy;
+
+import java.util.logging.Logger;
+import org.bukkit.Server;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.plugin.*;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
+
+// Referenced classes of package com.stealth62.SimplePluginSpy:
+//            SimplePluginSpyPlayerListener, SimplePluginSpyCommandExecutor
+
+public class SimplePluginSpy extends JavaPlugin
+{
+
+    public SimplePluginSpy()
+    {
+        log = Logger.getLogger("SimplePluginSpy");
+    }
+
+    public void onEnable()
+    {
+        getServer().getPluginManager().registerEvents(playerListener, this);
+        myExecutor = new SimplePluginSpyCommandExecutor(this);
+        getCommand("reload confrim").setExecutor(myExecutor);
+        PluginDescriptionFile pdfFile = getDescription();
+        log.info((new StringBuilder(String.valueOf(pdfFile.getName()))).append(" version ").append(pdfFile.getVersion()).append(" is now running.").toString());
+    }
+
+    public void onDisable()
+    {
+        getServer().getScheduler().cancelTasks(this);
+        PluginDescriptionFile pdfFile = getDescription();
+        if(!isEnabled())
+            log.info((new StringBuilder(String.valueOf(pdfFile.getName()))).append(" has been disabled!").toString());
+        else
+            log.severe((new StringBuilder(String.valueOf(pdfFile.getName()))).append(" FAILED TO DISABLE!!!").toString());
+        SimplePluginSpy.getPluginLoader().disablePlugin(SimplePluginSpy);
+    }
+
+    private final SimplePluginSpyPlayerListener playerListener = new SimplePluginSpyPlayerListener(this);
+    private SimplePluginSpyCommandExecutor myExecutor;
+    Logger log;
+    Server server;
+    Plugin SimplePluginSpy;
+}

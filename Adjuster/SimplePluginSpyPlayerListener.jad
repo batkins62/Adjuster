@@ -1,0 +1,67 @@
+// Decompiled by DJ v3.12.12.96 Copyright 2011 Atanas Neshkov  Date: 3/9/2012 9:12:11 PM
+// Home Page: http://members.fortunecity.com/neshkov/dj.html http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   SimplePluginSpyPlayerListener.java
+
+package com.stealth62.SimplePluginSpy;
+
+import java.util.logging.Logger;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+
+// Referenced classes of package com.stealth62.SimplePluginSpy:
+//            SimplePluginSpy
+
+public class SimplePluginSpyPlayerListener
+    implements Listener
+{
+
+    public SimplePluginSpyPlayerListener(SimplePluginSpy plugin)
+    {
+        log = Logger.getLogger("SimplePluginSpy");
+        this.plugin = plugin;
+    }
+
+    public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event)
+    {
+        if(event.getMessage().toLowerCase().startsWith("/pl ") || event.getMessage().toLowerCase().endsWith("plugin") || event.getMessage().toLowerCase().startsWith("/ver") || event.getMessage().toLowerCase().contains("gc") || event.getMessage().toLowerCase().endsWith("version"))
+        {
+            if(event.getPlayer().isPermissionSet("pluginspy.allow"))
+                if(!event.getPlayer().isOp());
+            event.setCancelled(true);
+            log.warning((new StringBuilder()).append(event.getPlayer()).append(" was denied access to ").append(event.getMessage()).toString());
+        }
+    }
+
+    public void onPlayerCommandPreprocessHigh(PlayerCommandPreprocessEvent event)
+    {
+        if(event.getMessage().toLowerCase().startsWith("/reload"))
+        {
+            event.setCancelled(true);
+            if(event.getPlayer().isOnline())
+            {
+                event.getPlayer().sendMessage("Reloads have a possibility of creating server side problems, are you sure you want to reload?");
+                event.getPlayer().sendMessage((new StringBuilder()).append(ChatColor.RED).append("Use /reload confirm to reload the server").toString());
+            }
+        }
+        if((event.getMessage().toLowerCase().contains("ping") || event.getMessage().toLowerCase().contains("pong") || event.getMessage().toLowerCase().contains("ding")) && event.getPlayer().isOnline())
+        {
+            event.getPlayer().sendMessage("ping is used to determine if essentials has loaded to the server, and in no way is this a determination of latency.");
+            log.warning("Player attempted to ping the server, but failed to understand what it does.");
+        }
+        if(event.getMessage().toLowerCase().contains("sudo stealth ping") || event.getMessage().toLowerCase().contains("sudo stealth62 ping"))
+        {
+            event.setCancelled(true);
+            if(event.getPlayer().isOnline())
+            {
+                event.getPlayer().sendMessage("Stealth does not want your ping");
+                event.getPlayer().setHealth(0);
+            }
+        }
+    }
+
+    private final SimplePluginSpy plugin;
+    Logger log;
+}

@@ -1,0 +1,46 @@
+// Decompiled by DJ v3.12.12.96 Copyright 2011 Atanas Neshkov  Date: 3/9/2012 9:12:11 PM
+// Home Page: http://members.fortunecity.com/neshkov/dj.html http://www.neshkov.com/dj.html - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   SimplePluginSpyCommandExecutor.java
+
+package com.stealth62.SimplePluginSpy;
+
+import java.util.logging.Logger;
+import org.bukkit.ChatColor;
+import org.bukkit.Server;
+import org.bukkit.command.*;
+import org.bukkit.entity.Player;
+
+// Referenced classes of package com.stealth62.SimplePluginSpy:
+//            SimplePluginSpy
+
+public class SimplePluginSpyCommandExecutor
+    implements CommandExecutor
+{
+
+    public SimplePluginSpyCommandExecutor(SimplePluginSpy plugin)
+    {
+        log = Logger.getLogger("SimplePluginSpy");
+        this.plugin = plugin;
+    }
+
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String args[])
+    {
+        Player player = null;
+        if(sender instanceof Player)
+            player = (Player)sender;
+        if(cmd.getName().equalsIgnoreCase("reload confirm"))
+        {
+            plugin.getServer().broadcastMessage((new StringBuilder()).append(ChatColor.GRAY).append("Reloading Service...").toString());
+            plugin.getServer().reload();
+            log.warning((new StringBuilder("[SimplePluginSpy] Player ")).append(sender.getName()).append(" used /reload").toString());
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    Logger log;
+    private SimplePluginSpy plugin;
+}
