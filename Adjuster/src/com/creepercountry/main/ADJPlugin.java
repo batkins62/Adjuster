@@ -9,6 +9,8 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.creepercountry.listeners.ADJPlayerListener;
+import com.creepercountry.listeners.ADJServerListener;
 import com.creepercountry.util.Version;
 
 public class ADJPlugin extends JavaPlugin
@@ -39,28 +41,25 @@ public class ADJPlugin extends JavaPlugin
     private CommandExecutor ADJExecutor;
     
     @Override
+    public void onLoad()
+    {
+    	// first load data
+    }
+    
+    @Override
     public void onEnable()
     {
-    	preload();
     	// create the plugin object
     	adj = new Adjuster(this);
     	Adjuster.ENABLED = true;
     	
-    	//check for essentials
+    	// check for required plugins, then load our plugin.
+    	checkForPlugins();
+       	load();
     	
-    	// Register Listeners
-        try {
-            registerEvents();
-        } catch (NoSuchFieldError e) {
-        }
-        // Register Command Handlers
-        try {
-        	registerCommands();
-        } catch (NoSuchFieldError e) {
-        }
-        
-        // load the rest of the plugin
-        load();
+       	// register commands & listeners
+        registerEvents();
+        registerCommands();
 
     	// get version, set version, and display
     	ADJInfo.setVersion(getDescription().getVersion());
@@ -75,6 +74,7 @@ public class ADJPlugin extends JavaPlugin
 
         // cancel all tasks we created
         getServer().getScheduler().cancelTasks(this);
+        getServer().getServicesManager().unregisterAll(this);
 
         // disable checks, or fail recovery
         if (isEnabled())
@@ -89,6 +89,10 @@ public class ADJPlugin extends JavaPlugin
         PluginManager pluginManager = Bukkit.getServer().getPluginManager();
         pluginManager.registerEvents(playerListener, this);
         pluginManager.registerEvents(serverListener, this);
+        
+        // Shared Objects
+        playerListener = new ADJPlayerListener(this);
+        serverListener = new ADJServerListener(this);
     }
     
     /**
@@ -103,14 +107,6 @@ public class ADJPlugin extends JavaPlugin
     	getCommand("adjuster stop").setExecutor(ADJExecutor);
     	getCommand("adjuster start").setExecutor(ADJExecutor);
     	getCommand("troll").setExecutor(ADJExecutor);
-    }
-    
-    private void preload()
-    {
-    	log("Loading shared objects");
-
-        playerListener = new ADJPlayerListener(this);
-        serverListener = new ADJServerListener(this);
     }
     
     /**
