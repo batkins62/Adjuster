@@ -26,10 +26,10 @@ public class ADJPlayerListener implements Listener
     {
         if(event.getMessage().toLowerCase().startsWith("/pl ") || event.getMessage().toLowerCase().endsWith("plugin") || event.getMessage().toLowerCase().startsWith("/ver") || event.getMessage().toLowerCase().contains("gc") || event.getMessage().toLowerCase().endsWith("version"))
         {
-            if(event.getPlayer().isPermissionSet("pluginspy.allow"))
+            if(event.getPlayer().isPermissionSet("adjuster.view.allow"))
                 if(!event.getPlayer().isOp());
-            event.setCancelled(true);
-            adj.log((new StringBuilder()).append(event.getPlayer()).append(" was denied access to ").append(event.getMessage()).toString());
+            		event.setCancelled(true);
+            		adj.log((new StringBuilder()).append(event.getPlayer()).append(" was denied access to ").append(event.getMessage()).toString());
         }
     }
 

@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.entity.Player;
@@ -12,6 +13,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.creepercountry.listeners.ADJPlayerListener;
 import com.creepercountry.listeners.ADJServerListener;
 import com.creepercountry.util.Version;
+import com.griefcraft.lwc.LWC;
+import com.griefcraft.lwc.LWCPlugin;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class ADJPlugin extends JavaPlugin
 {
@@ -111,16 +115,29 @@ public class ADJPlugin extends JavaPlugin
     	//executors for ranking verification
     	
     }
-    
+
     /**
      * Check for required plugins to be loaded
      */
+	//lwc
+	//logblock
+	//towny
+    //worldguard
+	//essentials, chat, spawn
     private void checkForPlugins()
     {
     	//lwc
-    	//logblock
-    	//towny
-    	//essentials
+    	LWC lwc = null;
+    	Plugin lwcPlugin = getServer().getPluginManager().getPlugin("LWC");
+    	if(lwcPlugin != null) {
+    	    lwc = ((LWCPlugin) lwcPlugin).getLWC();
+    	}
+    	//worldguard
+    	Plugin wgPlugin = getServer().getPluginManager().getPlugin("WorldGuard");
+        if (wgPlugin == null || !(wgPlugin instanceof WorldGuardPlugin)) {
+            return null;
+        }
+
     }
     
     /**

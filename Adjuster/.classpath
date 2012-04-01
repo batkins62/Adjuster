@@ -3,5 +3,10 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/Brian/Desktop/eclipse/Minecraft/bukkit-1.2.3-R0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Brian/Desktop/eclipse3/eclipse/Minecraft/LWC.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Brian/Desktop/eclipse3/eclipse/Minecraft/WorldGuard.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Brian/Desktop/eclipse3/eclipse/Minecraft/Essentials.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Brian/Desktop/eclipse3/eclipse/Minecraft/EssentialsChat.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Brian/Desktop/eclipse3/eclipse/Minecraft/EssentialsSpawn.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
