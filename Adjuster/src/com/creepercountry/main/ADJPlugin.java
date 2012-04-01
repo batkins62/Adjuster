@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.creepercountry.listeners.ADJPlayerListener;
 import com.creepercountry.listeners.ADJServerListener;
+import com.creepercountry.listeners.Handlers.ADJCmdExecutor;
 import com.creepercountry.util.Version;
 import com.griefcraft.lwc.LWC;
 import com.griefcraft.lwc.LWCPlugin;
@@ -35,14 +36,9 @@ public class ADJPlugin extends JavaPlugin
     private ADJServerListener serverListener;
     
     /**
-     * The logging object
-     */
-    private Logger logger = Logger.getLogger("Adjuster");
-    
-    /**
      * the command executor instance
      */
-    private CommandExecutor ADJExecutor;
+    private ADJCmdExecutor ADJExecutor;
     
     @Override
     public void onLoad()
@@ -137,7 +133,6 @@ public class ADJPlugin extends JavaPlugin
         if (wgPlugin == null || !(wgPlugin instanceof WorldGuardPlugin)) {
             return null;
         }
-
     }
     
     /**

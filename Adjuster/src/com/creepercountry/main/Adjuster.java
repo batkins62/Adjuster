@@ -31,7 +31,7 @@ public class Adjuster
     {
         this.plugin = plugin;
         Adjuster.instance = this;
-        //configuration = Configuration.load("core.yml");
+        //configuration = Configuration.load("settings.yml");
     }
         
     /**
