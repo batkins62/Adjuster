@@ -1,22 +1,23 @@
-package com.creepercountry.listeners.Handlers;
+package com.creepercountry.listeners.Executor;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.creepercountry.main.ADJPlugin;
 import com.creepercountry.main.Adjuster;
 
-public class ADJCmdExecutor implements CommandExecutor
+public class SpyCmdExecutor implements CommandExecutor
 {	 
     /**
      * The plugin instance
      */
-	private Adjuster plugin;
+	private ADJPlugin plugin;
 	 
-	public ADJCmdExecutor(Adjuster plugin)
+	public SpyCmdExecutor(ADJPlugin Adjuster)
 	{
-		this.plugin = plugin;
+		this.plugin = Adjuster;
 	}
 	 
 	@Override

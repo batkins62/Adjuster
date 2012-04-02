@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.creepercountry.listeners.ADJPlayerListener;
 import com.creepercountry.listeners.ADJServerListener;
-import com.creepercountry.listeners.Handlers.ADJCmdExecutor;
+import com.creepercountry.listeners.Executor.SpyCmdExecutor;
 import com.creepercountry.util.Version;
 import com.griefcraft.lwc.LWC;
 import com.griefcraft.lwc.LWCPlugin;
@@ -36,9 +36,12 @@ public class ADJPlugin extends JavaPlugin
     private ADJServerListener serverListener;
     
     /**
-     * the command executor instance
+     * the command executor instances
      */
-    private ADJCmdExecutor ADJExecutor;
+    private SpyCmdExecutor SpyExecutor;
+    private BankCmdExecutor BankExecutor;
+    private FunCmdExecutor FunExecutor;
+    private RankCmdExecutor RankExecutor;
     
     @Override
     public void onLoad()
@@ -101,13 +104,13 @@ public class ADJPlugin extends JavaPlugin
      */
     private void registerCommands()
     {
-    	ADJExecutor = new CommandExecutor(this);
-    	getCommand("reload confirm").setExecutor(ADJExecutor);
-    	getCommand("adjuster report").setExecutor(ADJExecutor);
-    	getCommand("cuff").setExecutor(ADJExecutor);
-    	getCommand("troll").setExecutor(ADJExecutor);
+    	SpyExecutor = new SpyCmdExecutor(this);
+    	BankExecutor = new BankCmdExecutor(this);
+    	FunExecutor = new FunCmdExecutor(this);
+    	RankExecutor = new RankCmdExecutor(this);
+    	getCommand("reload confirm").setExecutor(SpyExecutor);
     	//executors for quest playing
-    	getCommand("quest start piratebooty").setExecutor(ADJExecutor);
+    	getCommand("quest start piratebooty").setExecutor(QuestExecutor);
     	//executors for ranking verification
     	
     }
