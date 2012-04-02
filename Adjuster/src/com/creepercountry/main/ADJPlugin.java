@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.creepercountry.listeners.ADJPlayerListener;
 import com.creepercountry.listeners.ADJServerListener;
+import com.creepercountry.listeners.Executor.QuestCmdExecutor;
 import com.creepercountry.listeners.Executor.SpyCmdExecutor;
 import com.creepercountry.util.Version;
 import com.griefcraft.lwc.LWC;
@@ -26,13 +27,9 @@ public class ADJPlugin extends JavaPlugin
     private Adjuster adj;
     
     /**
-     * The player listener
+     * The listeners
      */
     private ADJPlayerListener playerListener;
-    
-    /**
-     * The server listener
-     */
     private ADJServerListener serverListener;
     
     /**
@@ -42,6 +39,7 @@ public class ADJPlugin extends JavaPlugin
     private BankCmdExecutor BankExecutor;
     private FunCmdExecutor FunExecutor;
     private RankCmdExecutor RankExecutor;
+    private QuestCmdExecutor QuestExecutor;
     
     @Override
     public void onLoad()
@@ -104,15 +102,20 @@ public class ADJPlugin extends JavaPlugin
      */
     private void registerCommands()
     {
+    	//executors for spy
     	SpyExecutor = new SpyCmdExecutor(this);
-    	BankExecutor = new BankCmdExecutor(this);
+    	//executors for fun
     	FunExecutor = new FunCmdExecutor(this);
+    	//executors for banks
+    	BankExecutor = new BankCmdExecutor(this);
+    	//executors for ranking
     	RankExecutor = new RankCmdExecutor(this);
-    	getCommand("reload confirm").setExecutor(SpyExecutor);
-    	//executors for quest playing
-    	getCommand("quest start piratebooty").setExecutor(QuestExecutor);
-    	//executors for ranking verification
-    	
+    	//executors for quests
+    	QuestExecutor = new QuestCmdExecutor(this);
+    	getCommand("quest start").setExecutor(QuestExecutor);
+    	getCommand("quest quit").setExecutor(QuestExecutor);
+    	getCommand("quest finish").setExecutor(QuestExecutor);
+    	getCommand("quest verify").setExecutor(QuestExecutor);
     }
 
     /**
