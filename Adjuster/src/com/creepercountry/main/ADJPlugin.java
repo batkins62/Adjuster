@@ -115,11 +115,11 @@ public class ADJPlugin extends JavaPlugin
     /**
      * Check for required plugins to be loaded
      */
-	//lwc
-	//logblock
-	//towny
-    //worldguard
-	//essentials, chat, spawn
+	//lwc: soft
+	//logblock: soft
+	//towny: soft
+    //worldguard: soft
+	//essentials, chat, spawn: depend
     private void checkForPlugins()
     {
     	//lwc

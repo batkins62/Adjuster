@@ -4,13 +4,24 @@ description: Extends functionality of Essentials.
 author: stealth62
 load: POSTWORLD
 main: com.creepercountry.main.AdjusterPlugin
+depend: [Essentials, EssentialsChat, PermissionsEx]
+softdepend: [LWC, WorldGuard, LogBlock, Towny]
+loadbefore: 
 commands:
+######CONFIRM COMMANDS######
    reload confirm:
       description: This reloads the server.
       usage: /reload confirm
-      permission: adjuster.reload
+      permission: adjuster.confirm.reload
       permission-message: You don't have access to reload the server.
       default: op
+   balancetop confirm:
+      description: use the essentials command /balancetop
+      usage: /balancetop confirm
+      permission: adjuster.confirm.balancetop
+      permission-message: You don't have access to that command.
+      default: op
+######BANK COMMANDS######
    bank create private:
       description: creates a private vault chest
       usage: /bank create private
@@ -22,4 +33,32 @@ commands:
       usage: /bank create quest
       permission: adjuster.create.quest
       permission-message: You dont't have access to create quest vaults.
-      default: o
+      default: op
+######QUEST COMMANDS######
+   quest start:
+      description: 
+      usage: /
+      permission: adjuster.
+      permission-message: You dont't have access to .
+      default: op
+   quest finish:
+      description: 
+      usage: /
+      permission: adjuster.
+      permission-message: You dont't have access to .
+      default: op
+   quest quit:
+      description: 
+      usage: /
+      permission: adjuster.
+      permission-message: You dont't have access to .
+      default: op
+   quest verify
+      description: 
+      usage: /
+      permission: adjuster.
+      permission-message: You dont't have access to .
+      default: op
+
+permissions:
+   adjuser
