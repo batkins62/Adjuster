@@ -53,12 +53,9 @@ commands:
       permission: adjuster.
       permission-message: You dont't have access to .
       default: op
-   quest verify
+   quest verify:
       description: 
       usage: /
       permission: adjuster.
       permission-message: You dont't have access to .
       default: op
-
-permissions:
-   adjuser
