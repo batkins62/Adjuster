@@ -3,6 +3,7 @@ package com.creepercountry.main;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.Configuration;
 
 public class Adjuster
 {
@@ -31,7 +32,6 @@ public class Adjuster
     {
         this.plugin = plugin;
         Adjuster.instance = this;
-        //configuration = Configuration.load("settings.yml");
     }
         
     /**

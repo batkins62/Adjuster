@@ -15,6 +15,9 @@ public class ADJPlayerListener implements Listener
      * The Adjuster instance
      */
     private Adjuster adj;
+    
+    //where does this belong o.o?
+	private ADJPlugin plugin;
 
 	public ADJPlayerListener(ADJPlugin plugin)
     {

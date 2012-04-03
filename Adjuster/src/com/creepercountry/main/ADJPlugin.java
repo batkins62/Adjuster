@@ -35,10 +35,10 @@ public class ADJPlugin extends JavaPlugin
     /**
      * the command executor instances
      */
-    private SpyCmdExecutor SpyExecutor;
-    private BankCmdExecutor BankExecutor;
-    private FunCmdExecutor FunExecutor;
-    private RankCmdExecutor RankExecutor;
+   // private SpyCmdExecutor SpyExecutor;
+   // private BankCmdExecutor BankExecutor;
+   // private FunCmdExecutor FunExecutor;
+   // private RankCmdExecutor RankExecutor;
     private QuestCmdExecutor QuestExecutor;
     
     @Override
@@ -66,7 +66,7 @@ public class ADJPlugin extends JavaPlugin
     	// get version, set version, and display
     	ADJInfo.setVersion(getDescription().getVersion());
         Version version = ADJInfo.FULL_VERSION;
-        log("At version: " + version.toString());
+        adj.log("At version: " + version.toString());
     }
     
     @Override
@@ -103,13 +103,13 @@ public class ADJPlugin extends JavaPlugin
     private void registerCommands()
     {
     	//executors for spy
-    	SpyExecutor = new SpyCmdExecutor(this);
+   // 	SpyExecutor = new SpyCmdExecutor(this);
     	//executors for fun
-    	FunExecutor = new FunCmdExecutor(this);
+   // 	FunExecutor = new FunCmdExecutor(this);
     	//executors for banks
-    	BankExecutor = new BankCmdExecutor(this);
+   // 	BankExecutor = new BankCmdExecutor(this);
     	//executors for ranking
-    	RankExecutor = new RankCmdExecutor(this);
+   // 	RankExecutor = new RankCmdExecutor(this);
     	//executors for quests
     	QuestExecutor = new QuestCmdExecutor(this);
     	getCommand("quest start").setExecutor(QuestExecutor);
@@ -128,17 +128,17 @@ public class ADJPlugin extends JavaPlugin
 	//essentials, chat, spawn: depend
     private void checkForPlugins()
     {
-    	//lwc
-    	LWC lwc = null;
-    	Plugin lwcPlugin = getServer().getPluginManager().getPlugin("LWC");
-    	if(lwcPlugin != null) {
-    	    lwc = ((LWCPlugin) lwcPlugin).getLWC();
-    	}
-    	//worldguard
-    	Plugin wgPlugin = getServer().getPluginManager().getPlugin("WorldGuard");
-        if (wgPlugin == null || !(wgPlugin instanceof WorldGuardPlugin)) {
-            return null;
-        }
+   // 	//lwc
+   // 	LWC lwc = null;
+   // 	Plugin lwcPlugin = getServer().getPluginManager().getPlugin("LWC");
+   // 	if(lwcPlugin != null) {
+   // 	    lwc = ((LWCPlugin) lwcPlugin).getLWC();
+   // 	}
+   // 	//worldguard
+   // 	Plugin wgPlugin = getServer().getPluginManager().getPlugin("WorldGuard");
+   //     if (wgPlugin == null || !(wgPlugin instanceof WorldGuardPlugin)) {
+   //         return null;
+   //     }
     }
     
     /**
