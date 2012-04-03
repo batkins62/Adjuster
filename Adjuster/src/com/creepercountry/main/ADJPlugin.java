@@ -2,6 +2,8 @@ package com.creepercountry.main;
 
 import java.util.logging.Logger;
 
+import java.io.File;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.plugin.Plugin;
@@ -15,9 +17,6 @@ import com.creepercountry.listeners.ADJServerListener;
 import com.creepercountry.listeners.Executor.QuestCmdExecutor;
 import com.creepercountry.listeners.Executor.SpyCmdExecutor;
 import com.creepercountry.util.Version;
-import com.griefcraft.lwc.LWC;
-import com.griefcraft.lwc.LWCPlugin;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class ADJPlugin extends JavaPlugin
 {
@@ -35,18 +34,11 @@ public class ADJPlugin extends JavaPlugin
     /**
      * the command executor instances
      */
-   // private SpyCmdExecutor SpyExecutor;
-   // private BankCmdExecutor BankExecutor;
-   // private FunCmdExecutor FunExecutor;
-   // private RankCmdExecutor RankExecutor;
+    private SpyCmdExecutor SpyExecutor;
+    private BankCmdExecutor BankExecutor;
+    private FunCmdExecutor FunExecutor;
+    private RankCmdExecutor RankExecutor;
     private QuestCmdExecutor QuestExecutor;
-    
-    @Override
-    public void onLoad()
-    {
-    	// first load data
-    	// check for pex, then confirm with log, or destruct
-    }
     
     @Override
     public void onEnable()
@@ -55,15 +47,15 @@ public class ADJPlugin extends JavaPlugin
     	adj = new Adjuster(this);
     	Adjuster.ENABLED = true;
     	
-    	// check for required plugins, then load our plugin.
-    	checkForPlugins();
-       	adj.load();
+    	// hook into depends, then load our plugin.
+    	pluginHooks();
+       	load();
     	
        	// register commands & listeners
         registerEvents();
         registerCommands();
-
-    	// get version, set version, and display
+        
+    	// set version, get version, and display
     	ADJInfo.setVersion(getDescription().getVersion());
         Version version = ADJInfo.FULL_VERSION;
         adj.log("At version: " + version.toString());
@@ -74,7 +66,7 @@ public class ADJPlugin extends JavaPlugin
     {
     	Adjuster.ENABLED = false;
 
-        // cancel all tasks we created
+        // cancel ALL tasks we created
         getServer().getScheduler().cancelTasks(this);
         getServer().getServicesManager().unregisterAll(this);
 
@@ -95,6 +87,9 @@ public class ADJPlugin extends JavaPlugin
         // Shared Objects
         playerListener = new ADJPlayerListener(this);
         serverListener = new ADJServerListener(this);
+        
+        // log your success **future:display what has been loaded, rather just "im done"**
+        adj.log("PluginManager has registered our listeners.");
     }
     
     /**
@@ -102,20 +97,20 @@ public class ADJPlugin extends JavaPlugin
      */
     private void registerCommands()
     {
-    	//executors for spy
-   // 	SpyExecutor = new SpyCmdExecutor(this);
-    	//executors for fun
-   // 	FunExecutor = new FunCmdExecutor(this);
-    	//executors for banks
-   // 	BankExecutor = new BankCmdExecutor(this);
-    	//executors for ranking
-   // 	RankExecutor = new RankCmdExecutor(this);
-    	//executors for quests
+    	// executors for spy
+    	SpyExecutor = new SpyCmdExecutor(this);
+    	// executors for fun
+    	FunExecutor = new FunCmdExecutor(this);
+    	// executors for banks
+    	BankExecutor = new BankCmdExecutor(this);
+    	// executors for ranking
+    	RankExecutor = new RankCmdExecutor(this);
+    	// executors for quests
     	QuestExecutor = new QuestCmdExecutor(this);
-    	getCommand("quest start").setExecutor(QuestExecutor);
-    	getCommand("quest quit").setExecutor(QuestExecutor);
-    	getCommand("quest finish").setExecutor(QuestExecutor);
-    	getCommand("quest verify").setExecutor(QuestExecutor);
+    	getCommand("quest").setExecutor(QuestExecutor);
+    	
+    	// log our success
+    	adj.log("commands loaded to their executors");
     }
 
     /**
@@ -126,19 +121,37 @@ public class ADJPlugin extends JavaPlugin
 	//towny: soft
     //worldguard: soft
 	//essentials, chat, spawn: depend
-    private void checkForPlugins()
+    //pex: depend
+    private void pluginHooks()
     {
-   // 	//lwc
-   // 	LWC lwc = null;
-   // 	Plugin lwcPlugin = getServer().getPluginManager().getPlugin("LWC");
-   // 	if(lwcPlugin != null) {
-   // 	    lwc = ((LWCPlugin) lwcPlugin).getLWC();
-   // 	}
-   // 	//worldguard
-   // 	Plugin wgPlugin = getServer().getPluginManager().getPlugin("WorldGuard");
-   //     if (wgPlugin == null || !(wgPlugin instanceof WorldGuardPlugin)) {
-   //         return null;
-   //     }
+    	//lwc
+    	LWC lwc = null;
+    	Plugin lwcPlugin = getServer().getPluginManager().getPlugin("LWC");
+    	if(lwcPlugin != null) {
+    	    lwc = ((LWCPlugin) lwcPlugin).getLWC();
+    	}
+    	//worldguard
+    	Plugin wgPlugin = getServer().getPluginManager().getPlugin("WorldGuard");
+        if (wgPlugin == null || !(wgPlugin instanceof WorldGuardPlugin)) {
+            return null;
+        }
+    }
+    
+    /**
+     *  load the plugin for full use
+     */
+    public void load()
+    {
+    	// load the config, so we can append data
+        getConfig().options().copyDefaults(true);
+        adj.log("Config file found! Loading data...");
+        
+        // if the config isnt there, create a new one
+        if(!(new File(getDataFolder(),"config.yml").exists()))
+        {
+        	adj.warn("No config.yml found... creating blank file.");
+        	saveDefaultConfig();
+        }
     }
     
     /**

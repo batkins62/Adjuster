@@ -1,5 +1,6 @@
 package com.creepercountry.main;
 
+import java.io.File;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
@@ -55,6 +56,16 @@ public class Adjuster
     }
     
     /**
+     * Log a string at warning level
+     *
+     * @param str
+     */
+    public void warn(String str)
+    {
+    	logger.warning("[Adjuster] " + ChatColor.stripColor(str));
+    }
+    
+    /**
      * Log a string at severe level
      * 
      * @param str
@@ -62,14 +73,6 @@ public class Adjuster
     public void severe(String str)
     {
     	logger.severe("[Adjuster] " + ChatColor.stripColor(str));
-    }
-    
-    /**
-     *  load the plugin for full use
-     */
-    public void load()
-    {
-    	//load the plugin the rest of the way
     }
     
     /**
