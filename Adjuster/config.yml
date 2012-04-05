@@ -5,6 +5,14 @@ isrunning:
 isdebug:
 configversion: 2
 
+#Spy variables:
+blockversion: true
+blockgc: true
+blockplugin: true
+blockreload: false
+blockbaltop: true
+blockping: false
+
 #Quest variables:
 gold:
 diamond:
