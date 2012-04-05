@@ -59,3 +59,9 @@ commands:
       permission: adjuster.
       permission-message: You dont't have access to .
       default: op
+   quest admin:
+      description: 
+      usage: /
+      permission: adjuster.
+      permission-message: You dont't have access to .
+      default: op

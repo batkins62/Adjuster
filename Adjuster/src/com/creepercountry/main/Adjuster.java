@@ -28,6 +28,11 @@ public class Adjuster
 	* Logging instance
 	*/
 	private Logger logger = Logger.getLogger("Adjuster");
+	
+	/**
+	 * Instance of QuestConfiguration
+	 */
+	protected static QuestConfiguration quest;
 
     public Adjuster(ADJPlugin plugin)
     {

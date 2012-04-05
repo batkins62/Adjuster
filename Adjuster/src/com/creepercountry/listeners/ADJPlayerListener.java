@@ -4,6 +4,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import com.creepercountry.main.ADJPlugin;
 import com.creepercountry.main.Adjuster;
@@ -16,18 +20,70 @@ public class ADJPlayerListener implements Listener
      */
     private Adjuster adj;
     
-    //where does this belong o.o?
+    /**
+     * The plugin instance
+     */
 	private ADJPlugin plugin;
 
+	/**
+	 * constructor
+	 * @param plugin
+	 */
 	public ADJPlayerListener(ADJPlugin plugin)
     {
         this.plugin = plugin;
     }
+	
+	//
+	//
+	// if player dies and is in quest, increment the deathcount
+	//
+	//
+	
+	@EventHandler
+	public void onPlayerLoginEvent(PlayerLoginEvent event)
+	{
+		
+	}
+	
+	@EventHandler
+	public void onPlayerRespawnEvent(PlayerRespawnEvent event)
+	{
+		
+	}
+	
+	@EventHandler (ignoreCancelled = true)
+	public void onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent event)
+	{
+        if(event.getMessage().toLowerCase().startsWith("/pl ") || event.getMessage().toLowerCase().endsWith("plugin"))
+        {
+        	if (!event.getPlayer().hasPermission("adjuster.spy.allow") || !event.getPlayer().isOp())
+        	{
+        		event.setCancelled(true)
+        	}
+        }
+	}
+	
+	@EventHandler
+	public void onPlayerTeleportEvent(PlayerTeleportEvent event)
+	{
+		
+	}
+	
+	@EventHandler
+	public void onPlayerQuitEvent(PlayerQuitEvent event)
+	{
+		
+	}
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event)
     {
-        if(event.getMessage().toLowerCase().startsWith("/pl ") || event.getMessage().toLowerCase().endsWith("plugin") || event.getMessage().toLowerCase().startsWith("/ver") || event.getMessage().toLowerCase().contains("gc") || event.getMessage().toLowerCase().endsWith("version"))
+        if(event.getMessage().toLowerCase().startsWith("/pl ") 
+        		|| event.getMessage().toLowerCase().endsWith("plugin") 
+        		|| event.getMessage().toLowerCase().startsWith("/ver") 
+        		|| event.getMessage().toLowerCase().startsWith("/gc") 
+        		|| event.getMessage().toLowerCase().endsWith("version"))
         {
             if(event.getPlayer().isPermissionSet("adjuster.view.allow"))
                 if(!event.getPlayer().isOp());

@@ -6,6 +6,8 @@ import java.io.File;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
@@ -17,6 +19,8 @@ import com.creepercountry.listeners.ADJServerListener;
 import com.creepercountry.listeners.Executor.QuestCmdExecutor;
 import com.creepercountry.listeners.Executor.SpyCmdExecutor;
 import com.creepercountry.util.Version;
+import com.griefcraft.lwc.LWCPlugin;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class ADJPlugin extends JavaPlugin
 {
@@ -99,12 +103,15 @@ public class ADJPlugin extends JavaPlugin
     {
     	// executors for spy
     	SpyExecutor = new SpyCmdExecutor(this);
+    	getCommand("spy").setExecutor(SpyExecutor)
     	// executors for fun
     	FunExecutor = new FunCmdExecutor(this);
     	// executors for banks
     	BankExecutor = new BankCmdExecutor(this);
+    	getCommand("bank").setExecutor(BankExecutor);
     	// executors for ranking
     	RankExecutor = new RankCmdExecutor(this);
+    	getCommand("ranking").setExecutor(RankExecutor);
     	// executors for quests
     	QuestExecutor = new QuestCmdExecutor(this);
     	getCommand("quest").setExecutor(QuestExecutor);
@@ -115,6 +122,7 @@ public class ADJPlugin extends JavaPlugin
 
     /**
      * Check for required plugins to be loaded
+     * @return
      */
 	//lwc: soft
 	//logblock: soft
@@ -122,17 +130,18 @@ public class ADJPlugin extends JavaPlugin
     //worldguard: soft
 	//essentials, chat, spawn: depend
     //pex: depend
-    private void pluginHooks()
+    private Object pluginHooks()
     {
     	//lwc
-    	LWC lwc = null;
     	Plugin lwcPlugin = getServer().getPluginManager().getPlugin("LWC");
-    	if(lwcPlugin != null) {
-    	    lwc = ((LWCPlugin) lwcPlugin).getLWC();
+    	if(lwcPlugin == null || !(lwcPlugin instanceof LWCPlugin))
+    	{
+    		return null;
     	}
     	//worldguard
     	Plugin wgPlugin = getServer().getPluginManager().getPlugin("WorldGuard");
-        if (wgPlugin == null || !(wgPlugin instanceof WorldGuardPlugin)) {
+        if (wgPlugin == null || !(wgPlugin instanceof WorldGuardPlugin))
+        {
             return null;
         }
     }
@@ -142,9 +151,16 @@ public class ADJPlugin extends JavaPlugin
      */
     public void load()
     {
-    	// load the config, so we can append data
+    	// load the config.yml, so we can append data
         getConfig().options().copyDefaults(true);
         adj.log("Config file found! Loading data...");
+        
+        //load the questdata.yml @deprecated
+        //DELETED: public class QuestConfiguration implements ConfigurationSerializable
+        //YamlConfiguration questdata = new YamlConfiguration();
+        //questdata.load(getResource("questdata.yml"));
+        //questdata.setDefaults(questdata);
+        //Adjuster.quest = QuestConfiguration.valueOf(questdata.getConfigurationSection("questdata").getValues(false));
         
         // if the config isnt there, create a new one
         if(!(new File(getDataFolder(),"config.yml").exists()))

@@ -1,1 +1,14 @@
-#config.yml start
+#System variables:
+isreloading:
+isshutdown:
+isrunning:
+isdebug:
+configversion: 2
+
+#Quest variables:
+gold:
+diamond:
+redstone:
+lapis:
+
+#quest player data (this section must be at the end of the file)
