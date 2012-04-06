@@ -1,15 +1,10 @@
 package com.creepercountry.main;
 
-import java.util.logging.Logger;
-
 import java.io.File;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,8 +14,8 @@ import com.creepercountry.listeners.ADJServerListener;
 import com.creepercountry.listeners.Executor.QuestCmdExecutor;
 import com.creepercountry.listeners.Executor.SpyCmdExecutor;
 import com.creepercountry.util.Version;
-import com.griefcraft.lwc.LWCPlugin;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+//import com.griefcraft.lwc.LWCPlugin;
+//import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class ADJPlugin extends JavaPlugin
 {
@@ -32,16 +27,16 @@ public class ADJPlugin extends JavaPlugin
     /**
      * The listeners
      */
-    private ADJPlayerListener playerListener;
-    private ADJServerListener serverListener;
+   // private ADJPlayerListener playerListener;
+   // private ADJServerListener serverListener;
     
     /**
      * the command executor instances
      */
     private SpyCmdExecutor SpyExecutor;
-    private BankCmdExecutor BankExecutor;
-    private FunCmdExecutor FunExecutor;
-    private RankCmdExecutor RankExecutor;
+    //private BankCmdExecutor BankExecutor;
+    //private FunCmdExecutor FunExecutor;
+    //private RankCmdExecutor RankExecutor;
     private QuestCmdExecutor QuestExecutor;
     
     @Override
@@ -52,11 +47,11 @@ public class ADJPlugin extends JavaPlugin
     	Adjuster.ENABLED = true;
     	
     	// hook into depends, then load our plugin.
-    	pluginHooks();
+    	//pluginHooks();
        	load();
     	
        	// register commands & listeners
-        registerEvents();
+        //registerEvents();
         registerCommands();
         
     	// set version, get version, and display
@@ -86,11 +81,11 @@ public class ADJPlugin extends JavaPlugin
     {
         PluginManager pluginManager = Bukkit.getServer().getPluginManager();
         pluginManager.registerEvents(playerListener, this);
-        pluginManager.registerEvents(serverListener, this);
+        //pluginManager.registerEvents(serverListener, this);
         
         // Shared Objects
         playerListener = new ADJPlayerListener(this);
-        serverListener = new ADJServerListener(this);
+        //serverListener = new ADJServerListener(this);
         
         // log your success **future:display what has been loaded, rather just "im done"**
         adj.log("PluginManager has registered our listeners.");
@@ -102,16 +97,16 @@ public class ADJPlugin extends JavaPlugin
     private void registerCommands()
     {
     	// executors for spy
-    	SpyExecutor = new SpyCmdExecutor(this);
-    	getCommand("spy").setExecutor(SpyExecutor)
+    	//SpyExecutor = new SpyCmdExecutor(this);
+    	//getCommand("spy").setExecutor(SpyExecutor);
     	// executors for fun
-    	FunExecutor = new FunCmdExecutor(this);
+    	//FunExecutor = new FunCmdExecutor(this);
     	// executors for banks
-    	BankExecutor = new BankCmdExecutor(this);
-    	getCommand("bank").setExecutor(BankExecutor);
+    	//BankExecutor = new BankCmdExecutor(this);
+    	//getCommand("bank").setExecutor(BankExecutor);
     	// executors for ranking
-    	RankExecutor = new RankCmdExecutor(this);
-    	getCommand("ranking").setExecutor(RankExecutor);
+    	//RankExecutor = new RankCmdExecutor(this);
+    	//getCommand("ranking").setExecutor(RankExecutor);
     	// executors for quests
     	QuestExecutor = new QuestCmdExecutor(this);
     	getCommand("quest").setExecutor(QuestExecutor);
@@ -130,7 +125,7 @@ public class ADJPlugin extends JavaPlugin
     //worldguard: soft
 	//essentials, chat, spawn: depend
     //pex: depend
-    private Object pluginHooks()
+   /* private Object pluginHooks()
     {
     	//lwc
     	Plugin lwcPlugin = getServer().getPluginManager().getPlugin("LWC");
@@ -145,6 +140,7 @@ public class ADJPlugin extends JavaPlugin
             return null;
         }
     }
+    */
     
     /**
      *  load the plugin for full use
@@ -154,13 +150,6 @@ public class ADJPlugin extends JavaPlugin
     	// load the config.yml, so we can append data
         getConfig().options().copyDefaults(true);
         adj.log("Config file found! Loading data...");
-        
-        //load the questdata.yml @deprecated
-        //DELETED: public class QuestConfiguration implements ConfigurationSerializable
-        //YamlConfiguration questdata = new YamlConfiguration();
-        //questdata.load(getResource("questdata.yml"));
-        //questdata.setDefaults(questdata);
-        //Adjuster.quest = QuestConfiguration.valueOf(questdata.getConfigurationSection("questdata").getValues(false));
         
         // if the config isnt there, create a new one
         if(!(new File(getDataFolder(),"config.yml").exists()))

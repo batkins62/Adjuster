@@ -6,7 +6,6 @@ load: POSTWORLD
 main: com.creepercountry.main.ADJPlugin
 depend: [Essentials, EssentialsChat, PermissionsEx]
 softdepend: [LWC, WorldGuard, LogBlock, Towny]
-loadbefore: 
 commands:
 ######CONFIRM COMMANDS######
    reload confirm:
@@ -35,28 +34,34 @@ commands:
       permission-message: You dont't have access to create quest vaults.
       default: op
 ######QUEST COMMANDS######
+   quest:
+      description: 
+      usage: /quest [questname] start
+      permission: adjuster.quest.start
+      permission-message: You dont't have access to .
+      default: op
    quest start:
       description: 
-      usage: /
-      permission: adjuster.
+      usage: /quest [questname] start
+      permission: adjuster.quest.start
       permission-message: You dont't have access to .
       default: op
    quest finish:
       description: 
-      usage: /
-      permission: adjuster.
+      usage: /quest [questname] finish
+      permission: adjuster.quest.finish
       permission-message: You dont't have access to .
       default: op
    quest quit:
       description: 
-      usage: /
-      permission: adjuster.
+      usage: /quest [questname] quit
+      permission: adjuster.quest.quit
       permission-message: You dont't have access to .
       default: op
    quest verify:
       description: 
-      usage: /
-      permission: adjuster.
+      usage: /quest [questname] verify
+      permission: adjuster.quest.verify
       permission-message: You dont't have access to .
       default: op
    quest admin:

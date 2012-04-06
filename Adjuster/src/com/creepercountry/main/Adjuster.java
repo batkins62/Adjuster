@@ -1,10 +1,8 @@
 package com.creepercountry.main;
 
-import java.io.File;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.Configuration;
 
 public class Adjuster
 {
@@ -28,11 +26,6 @@ public class Adjuster
 	* Logging instance
 	*/
 	private Logger logger = Logger.getLogger("Adjuster");
-	
-	/**
-	 * Instance of QuestConfiguration
-	 */
-	protected static QuestConfiguration quest;
 
     public Adjuster(ADJPlugin plugin)
     {

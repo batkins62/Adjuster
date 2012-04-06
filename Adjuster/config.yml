@@ -12,6 +12,7 @@ blockplugin: true
 blockreload: false
 blockbaltop: true
 blockping: false
+spyexecutors: true
 
 #Quest variables:
 gold:

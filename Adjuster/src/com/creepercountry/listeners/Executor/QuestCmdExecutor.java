@@ -30,13 +30,15 @@ public class QuestCmdExecutor implements CommandExecutor
     @Override
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args)
     {
-        String commandName = args[1].toLowerCase();				// what command was given
-        String questname = args[0].toLowerCase();				// what argument was given
-        Player player = (Player) sender;						// cast sender as a player
-        boolean isPlayer = (sender instanceof Player);			// check if they're a player
+        String commandName = args[1].toLowerCase();							// what command was given
+        String questname = args[0].toLowerCase();							// what argument was given
+        Player player = (Player) sender;									// cast sender as a player
+        boolean isPlayer = (sender instanceof Player);						// check if they're a player
+        boolean isSpying = plugin.getConfig().getBoolean("spyexecutors");	// are we spying on commands?
         
         // spy on what people are typing
-        adj.log(sender.toString() + " used command /quest " + args.toString());
+        if (isSpying && isPlayer)
+        	adj.log(sender.getName().toString() + " used command /quest " + args.toString());
         
         if (isPlayer && args.length == 2)
         {
