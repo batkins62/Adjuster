@@ -8,65 +8,60 @@ depend: [Essentials, EssentialsChat, PermissionsEx]
 softdepend: [LWC, WorldGuard, LogBlock, Towny]
 commands:
 ######CONFIRM COMMANDS######
-   reload confirm:
-      description: This reloads the server.
-      usage: /reload confirm
-      permission: adjuster.confirm.reload
-      permission-message: You don't have access to reload the server.
-      default: op
-   balancetop confirm:
-      description: use the essentials command /balancetop
-      usage: /balancetop confirm
-      permission: adjuster.confirm.balancetop
-      permission-message: You don't have access to that command.
-      default: op
+#   reload confirm:
+#      description: This reloads the server.
+#      usage: /reload confirm
+#      permission: adjuster.confirm.reload
+#      permission-message: You don't have access to reload the server.
+#      default: op
+#   balancetop confirm:
+#      description: use the essentials command /balancetop
+#      usage: /balancetop confirm
+#      permission: adjuster.confirm.balancetop
+#      permission-message: You don't have access to that command.
+#      default: op
 ######BANK COMMANDS######
-   bank create private:
-      description: creates a private vault chest
-      usage: /bank create private
-      permission: adjuster.create.private
-      permission-message: You dont't have access to create private vaults.
-      default: op
-   bank create quest:
-      description: creates a quest vault chest
-      usage: /bank create quest
-      permission: adjuster.create.quest
-      permission-message: You dont't have access to create quest vaults.
-      default: op
+#   bank create private:
+#      description: creates a private vault chest
+#      usage: /bank create private
+#      permission: adjuster.create.private
+#      permission-message: You dont't have access to create private vaults.
+#   bank create quest:
+#      description: creates a quest vault chest
+#      usage: /bank create quest
+#      permission: adjuster.create.quest
+#      permission-message: You dont't have access to create quest vaults.
 ######QUEST COMMANDS######
-   quest:
-      description: 
-      usage: /quest [questname] start
-      permission: adjuster.quest.start
-      permission-message: You dont't have access to .
-      default: op
-   quest start:
-      description: 
-      usage: /quest [questname] start
-      permission: adjuster.quest.start
-      permission-message: You dont't have access to .
-      default: op
-   quest finish:
-      description: 
-      usage: /quest [questname] finish
-      permission: adjuster.quest.finish
-      permission-message: You dont't have access to .
-      default: op
-   quest quit:
-      description: 
-      usage: /quest [questname] quit
-      permission: adjuster.quest.quit
-      permission-message: You dont't have access to .
-      default: op
-   quest verify:
-      description: 
-      usage: /quest [questname] verify
-      permission: adjuster.quest.verify
-      permission-message: You dont't have access to .
-      default: op
-   quest admin:
-      description: 
-      usage: /
-      permission: adjuster.
-      permission-message: You dont't have access to .
-      default: op
+  quest:
+    aliases: adjquest
+    description: enable or disable quest tracking.
+    usage: syntax error! /quest [questname] [start,finish,quit,verify] [target]
+    permission: adjuster.quest
+    permission-message: You dont't have access to this commands.
+######PERMISSION NODES######
+permissions:
+  adjuster.quest.*:
+    description: ALL quest related permission nodes.
+    default: op
+    children:
+      adjuster.quest.start: true
+      adjuster.quest.quit: true
+      adjuster.quest.finish: true
+      adjuster.quest.verify.others: true
+  adjuster.quest.start:
+    description: 
+    default: true
+  adjuster.quest.quit:
+    description: 
+    default: true
+  adjuster.quest.finish:
+    description: 
+    default: true
+  adjuster.quest.verify:
+    description: 
+    default: true
+  adjuster.quest.verify.others:
+    description: 
+    default: op
+    children:
+      adjuster.quest.verify: true

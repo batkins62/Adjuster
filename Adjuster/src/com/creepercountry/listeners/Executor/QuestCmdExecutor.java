@@ -30,15 +30,16 @@ public class QuestCmdExecutor implements CommandExecutor
     @Override
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args)
     {
-        String commandName = args[1].toLowerCase();							// what command was given
-        String questname = args[0].toLowerCase();							// what argument was given
-        Player player = (Player) sender;									// cast sender as a player
-        boolean isPlayer = (sender instanceof Player);						// check if they're a player
-        boolean isSpying = plugin.getConfig().getBoolean("spyexecutors");	// are we spying on commands?
+        String commandName = args[1].toString().toLowerCase();							// what command was given
+        String questname = args[0].toString().toLowerCase();							// what argument was given
+        Player player = (Player) sender;												// cast sender as a player
+        boolean isPlayer = (sender instanceof Player);									// check if they're a player
+        //boolean isSpying = plugin.getConfig().getBoolean("spyexecutors");				// are we spying on commands?
         
         // spy on what people are typing
-        if (isSpying && isPlayer)
-        	adj.log(sender.getName().toString() + " used command /quest " + args.toString());
+        // TODO: why isnt this working? throws "java.lang.NullPointerException"
+        //if (isSpying && isPlayer)
+        //	adj.log(sender.getName().toString() + " used command /quest " + args.toString());
         
         if (isPlayer && args.length == 2)
         {
@@ -47,10 +48,11 @@ public class QuestCmdExecutor implements CommandExecutor
     		int health = player.getHealth();
     		int level = player.getLevel();
     		String gamemode = player.getGameMode().toString();
-    		String ign = player.getName().toString();
+    		String ign = sender.getName().toString();
     		boolean isQuesting = plugin.getConfig().getBoolean(ign + "." + questname + "." + "isActive");
 
-    		String stringvector = plugin.getConfig().getVector(ign + "." + questname + "." + "vector").toString();
+    		// TODO: why is this throwing a "java.lang.NullPointerException"?
+    		//String stringvector = plugin.getConfig().getVector(ign + "." + questname + "." + "vector").toString();
     		int displayFood = plugin.getConfig().getInt(ign + "." + questname + "." + "foodlvl");
     		int displayHealth = plugin.getConfig().getInt(ign + "." + questname + "." + "health");
     		int displayLevel = plugin.getConfig().getInt(ign + "." + questname + "." + "level");
@@ -58,7 +60,7 @@ public class QuestCmdExecutor implements CommandExecutor
     		int displayDeath = plugin.getConfig().getInt(ign + "." + questname + "." + "deathcount");
     		int quitcount = plugin.getConfig().getInt(ign + "." + questname + "." + "quits");
     		
-        	if (commandName.equals("start"))
+        	if (commandName.equals("start") && !isQuesting)
             {
         		
                 if (sender.hasPermission("adjuster.quest.start") || sender.isOp())
@@ -66,8 +68,7 @@ public class QuestCmdExecutor implements CommandExecutor
                 	if (questname.equals("gold") 
                 			|| questname.equals("diamond") 
                 			|| questname.equals("redstone") 
-                			|| questname.equals("lapis")
-                			&& !isQuesting)
+                			|| questname.equals("lapis"))
                 	{
                 		// set the player active status on the current quest, then  setup profile
                 		plugin.getConfig().set(ign + "." + questname + "." + "isActive", true);
@@ -89,7 +90,8 @@ public class QuestCmdExecutor implements CommandExecutor
                 		sender.sendMessage(ChatColor.RED + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                 		
                 		// nag the log
-                		adj.log("Player " + ign + " has started quest " + questname + ".");
+                		// TODO: fix why "java.lang.NullPointerException" happens when this is enabled
+                		//adj.log("Player " + ign + " has started quest " + questname + ".");
                 	}
                 	else
                 	{
@@ -147,14 +149,15 @@ public class QuestCmdExecutor implements CommandExecutor
         			plugin.getConfig().set(ign + "." + questname + "." + "isActive", false);
         			
         			// log players data before we erase
-        			adj.log(ign + " has QUIT quest " + questname + "...");
-        			adj.log("Logging Stats for: " + ign + " on quest: " + questname);
-        			adj.log("Vector: " + stringvector);
-        			adj.log("Food Level: " + displayFood);
-        			adj.log("Health: " + displayHealth);
-        			adj.log("Level: " + displayLevel);
-        			adj.log("GameMode: " + stringgamemode);
-        			adj.log("Death Count: " + displayDeath);
+        			// TODO: why is this throwing a "java.lang.NullPointerException"?
+        			//adj.log(ign + " has QUIT quest " + questname + "...");
+        			//adj.log("Logging Stats for: " + ign + " on quest: " + questname);
+        			//adj.log("Vector: " + stringvector);
+        			//adj.log("Food Level: " + displayFood);
+        			//adj.log("Health: " + displayHealth);
+        			//adj.log("Level: " + displayLevel);
+        			//adj.log("GameMode: " + stringgamemode);
+        			//adj.log("Death Count: " + displayDeath);
             		
             		// now erase data
             		plugin.getConfig().set(ign + "." + questname + "." + "isActive", null);
@@ -186,7 +189,7 @@ public class QuestCmdExecutor implements CommandExecutor
             		// display the results:
         			sender.sendMessage(ChatColor.RED + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         			sender.sendMessage(ChatColor.GREEN + "Showing Stats for: " + ign + " on quest: " + questname);
-        			sender.sendMessage(ChatColor.GREEN + "Vector: " + stringvector);
+        			//sender.sendMessage(ChatColor.GREEN + "Vector: " + stringvector);
         			sender.sendMessage(ChatColor.GREEN + "Food Level: " + displayFood);
         			sender.sendMessage(ChatColor.GREEN + "Health: " + displayHealth);
         			sender.sendMessage(ChatColor.GREEN + "Level: " + displayLevel);
@@ -200,7 +203,8 @@ public class QuestCmdExecutor implements CommandExecutor
             	else if (isQuesting)
             	{
             		sender.sendMessage(ChatColor.RED + "Please complete the quest before you verify completion");
-            		adj.log(ign + " was denied access to verify because they are actively questing!");
+            		// TODO: why is this throwing a "java.lang.NullPointerException"?
+            		//adj.log(ign + " was denied access to verify because they are actively questing!");
             	}
             }
         	
@@ -213,7 +217,8 @@ public class QuestCmdExecutor implements CommandExecutor
             			plugin.getConfig().set(questname, vector);
             			plugin.saveConfig();
             			
-            			adj.log(ign + " set the location of the gold level quest");
+            			// TODO: why is this throwing a "java.lang.NullPointerException"?
+            			//adj.log(ign + " set the location of the gold level quest");
             			sender.sendMessage(ChatColor.RED + "Vector for GOLD LEVEL QUEST saved!");
             		}
             		if (questname.equals("setdiamond"))
@@ -235,7 +240,10 @@ public class QuestCmdExecutor implements CommandExecutor
             		adj.log(ign + " was denied access to /quest admin");
             	}
             }
-            return true;
+            else if (commandName.equals("start") && isQuesting)
+            	sender.sendMessage(ChatColor.RED + "You can't start a quest you already started!");
+            	
+        	return true;
         }
         // display error messages for offenders of the all mighty syntax
         else if (!isPlayer)
