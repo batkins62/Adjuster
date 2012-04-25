@@ -1,23 +1,32 @@
-#System variables:
-isreloading:
-isshutdown:
-isrunning:
-isdebug:
-configversion: 2
-
-#Spy variables:
-blockversion: true
-blockgc: true
-blockplugin: true
-blockreload: false
-blockbaltop: true
-blockping: false
+############################
+#    System variables:     #
+############################
+system:
+   isreloading: false
+   isshutdown: false
+   isrunning: false
+   isdebug: true
+   configversion: 3
+   pluginversion: 0.0.0
+############################
+#      Spy variables:      #
+############################
+blockcommands:
+   blockversion: true
+   blockgc: true
+   blockplugin: true
+   blockreload: false
+   blockbaltop: true
+   blockping: false
 spyexecutors: true
-
-#Quest variables:
+############################
+#     Quest variables:     #
+############################
 gold:
 diamond:
 redstone:
 lapis:
 
 #quest player data (this section must be at the end of the file)
+#INPORTANT: DO NOT EDIT THIS NEXT SECTION, IF DATA GETS CHANGED
+#HERE, PLUGIN WILL THROW ERRORS.

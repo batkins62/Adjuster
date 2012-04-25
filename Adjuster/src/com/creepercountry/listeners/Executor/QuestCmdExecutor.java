@@ -41,6 +41,11 @@ public class QuestCmdExecutor implements CommandExecutor
         //if (isSpying && isPlayer)
         //	adj.log(sender.getName().toString() + " used command /quest " + args.toString());
         
+        // this is to prevent ArrayIndexOutOfBoundsException
+        // TODO: why does this not work?!?!
+        if (args.length < 2)
+        	return false;
+        
         if (isPlayer && args.length == 2)
         {
     		Vector vector = player.getLocation().toVector();
@@ -248,11 +253,10 @@ public class QuestCmdExecutor implements CommandExecutor
         // display error messages for offenders of the all mighty syntax
         else if (!isPlayer)
         	sender.sendMessage("soz bro, only players can do this command.");
-        else if (args.length < 2 && isPlayer)
-        	sender.sendMessage(ChatColor.RED + "Invalid syntax, please check what your typing and try again.");
-        else if (args.length > 2 && isPlayer)
+        else if (!(args.length == 2) && isPlayer)
         	sender.sendMessage(ChatColor.RED + "Invalid syntax, please check what your typing and try again.");
         
+        // return false so plugin.yml displays its syntax help message
         return false;
 	}
 }

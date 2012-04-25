@@ -2,17 +2,12 @@ package com.creepercountry.main;
 
 import java.io.File;
 
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.creepercountry.listeners.ADJPlayerListener;
-import com.creepercountry.listeners.ADJServerListener;
+//import com.creepercountry.listeners.ADJServerListener;
 import com.creepercountry.listeners.Executor.QuestCmdExecutor;
-import com.creepercountry.listeners.Executor.SpyCmdExecutor;
 import com.creepercountry.util.Version;
 //import com.griefcraft.lwc.LWCPlugin;
 //import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -27,17 +22,24 @@ public class ADJPlugin extends JavaPlugin
     /**
      * The listeners
      */
-   // private ADJPlayerListener playerListener;
-   // private ADJServerListener serverListener;
+    private ADJPlayerListener playerListener;
+    private ADJBlockListener blockListener;
+    //private ADJServerListener serverListener;
     
     /**
      * the command executor instances
      */
-    private SpyCmdExecutor SpyExecutor;
+    //private SpyCmdExecutor SpyExecutor;
     //private BankCmdExecutor BankExecutor;
     //private FunCmdExecutor FunExecutor;
     //private RankCmdExecutor RankExecutor;
     private QuestCmdExecutor QuestExecutor;
+    
+    /**
+     * Grab variables from config
+     */
+    // TODO: this cant be here, the darn config hasnt loaded :P
+    //boolean isDebug = getConfig().getBoolean("isDebug");
     
     @Override
     public void onEnable()
@@ -51,7 +53,7 @@ public class ADJPlugin extends JavaPlugin
        	load();
     	
        	// register commands & listeners
-        //registerEvents();
+        registerEvents();
         registerCommands();
         
     	// set version, get version, and display
@@ -79,15 +81,19 @@ public class ADJPlugin extends JavaPlugin
      */
     private void registerEvents()
     {
-        PluginManager pluginManager = Bukkit.getServer().getPluginManager();
-        pluginManager.registerEvents(playerListener, this);
-        //pluginManager.registerEvents(serverListener, this);
-        
         // Shared Objects
         playerListener = new ADJPlayerListener(this);
+        blockListener = new ADJBlockListener(this);
         //serverListener = new ADJServerListener(this);
         
-        // log your success **future:display what has been loaded, rather just "im done"**
+        // register event listeners
+        PluginManager pluginManager = getServer().getPluginManager();
+        pluginManager.registerEvents(playerListener, this);
+        pluginManager.registerEvents(blockListener, this);
+        //pluginManager.registerEvents(serverListener, this);
+        
+        // log your success 
+        // TODO: **future:display what has been loaded, rather just "im done"**
         adj.log("PluginManager has registered our listeners.");
     }
     
@@ -101,6 +107,7 @@ public class ADJPlugin extends JavaPlugin
     	//getCommand("spy").setExecutor(SpyExecutor);
     	// executors for fun
     	//FunExecutor = new FunCmdExecutor(this);
+    	//getCommand("casino").setExecutor(FunExecutor);
     	// executors for banks
     	//BankExecutor = new BankCmdExecutor(this);
     	//getCommand("bank").setExecutor(BankExecutor);
@@ -111,8 +118,10 @@ public class ADJPlugin extends JavaPlugin
     	QuestExecutor = new QuestCmdExecutor(this);
     	getCommand("quest").setExecutor(QuestExecutor);
     	
-    	// log our success
-    	adj.log("commands loaded to their executors");
+    	// log our success if... in debug
+    	// TODO: need to iniatise this
+    	//if (isDebug)
+    	//	adj.log("commands loaded to their executors");
     }
 
     /**
@@ -146,16 +155,19 @@ public class ADJPlugin extends JavaPlugin
      *  load the plugin for full use
      */
     public void load()
-    {
-    	// load the config.yml, so we can append data
-        getConfig().options().copyDefaults(true);
-        adj.log("Config file found! Loading data...");
-        
+    {    
         // if the config isnt there, create a new one
         if(!(new File(getDataFolder(),"config.yml").exists()))
         {
         	adj.warn("No config.yml found... creating blank file.");
         	saveDefaultConfig();
+        }
+        
+    	// if config is there we load the config.yml, so we can append data
+        else if(new File(getDataFolder(),"config.yml").exists())
+        {
+            getConfig().options().copyDefaults(true);
+            adj.log("Config file found! Loading data...");
         }
     }
     

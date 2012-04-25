@@ -16,6 +16,10 @@ public class SpyCmdExecutor implements CommandExecutor
      */
 	private ADJPlugin plugin;
 	 
+	/**
+	 * constructor
+	 * @param plugin
+	 */
 	public SpyCmdExecutor(ADJPlugin Adjuster)
 	{
 		this.plugin = Adjuster;

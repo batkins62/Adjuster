@@ -3,15 +3,16 @@ package com.creepercountry.listeners;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
+import com.creepercountry.config.Config;
 import com.creepercountry.main.ADJPlugin;
 import com.creepercountry.main.Adjuster;
+import com.creepercountry.util.QuestUtil;
 
 public class ADJPlayerListener implements Listener
 {
@@ -22,9 +23,19 @@ public class ADJPlayerListener implements Listener
     private Adjuster adj;
     
     /**
+     * The QuestUtil instance
+     */
+    private QuestUtil quest;
+    
+    /**
      * The plugin instance
      */
 	private ADJPlugin plugin;
+	
+	/**
+	 * The Config instance
+	 */
+	private Config config;
 
 	/**
 	 * constructor
@@ -35,29 +46,19 @@ public class ADJPlayerListener implements Listener
         this.plugin = plugin;
     }
 	
-	@EventHandler
-	public void onPlayerLoginEvent(PlayerLoginEvent event)
-	{
-		
-	}
+	//@EventHandler
+	//public void onPlayerLoginEvent(PlayerLoginEvent event)
+	//{
+	//	
+	//}
 	
 	@EventHandler
 	public void onPlayerRespawnEvent(PlayerRespawnEvent event)
 	{
 		// assign variables, to inprove code readability
 		Player player = event.getPlayer();
-		String goldpath = player.toString() + ".gold.isActive";
-		String diamondpath = player.toString() + ".diamond.isActive"; 
-		String redstonepath = player.toString() + ".redstone.isActive";
-		String lapispath = player.toString() + ".lapis.isActive";
 		
-		// grab options and variables from the config
-		boolean goldQuesting = plugin.getConfig().getBoolean(goldpath);
-		boolean diamondQuesting = plugin.getConfig().getBoolean(diamondpath);
-		boolean redstoneQuesting = plugin.getConfig().getBoolean(redstonepath);
-		boolean lapisQuesting = plugin.getConfig().getBoolean(lapispath);
-		
-		if (goldQuesting = true)
+		if (quest.isQuesting(player, "gold"))
 		{
 			// player has gold level quest active
 			int deathcount = plugin.getConfig().getInt(player.toString() + ".gold.deathcount");
@@ -74,7 +75,7 @@ public class ADJPlayerListener implements Listener
 			plugin.saveConfig();
 		}
 		
-		else if (diamondQuesting = true)
+		else if (quest.isQuesting(player, "diamond"))
 		{
 			// player has diamond level quest active
 			int deathcount = plugin.getConfig().getInt(player.toString() + ".diamond.deathcount");
@@ -91,7 +92,7 @@ public class ADJPlayerListener implements Listener
 			plugin.saveConfig();
 		}
 		
-		else if (redstoneQuesting = true)
+		else if (quest.isQuesting(player, "redstone"))
 		{
 			// player has redstone level quest active
 			int deathcount = plugin.getConfig().getInt(player.toString() + ".redstone.deathcount");
@@ -108,7 +109,7 @@ public class ADJPlayerListener implements Listener
 			plugin.saveConfig();
 		}
 		
-		else if (lapisQuesting = true)
+		else if (quest.isQuesting(player, "lapis"))
 		{
 			// player has lapis level quest active
 			int deathcount = plugin.getConfig().getInt(player.toString() + ".lapis.deathcount");
@@ -134,20 +135,11 @@ public class ADJPlayerListener implements Listener
 		Player player = event.getPlayer();
 		String command = event.getMessage().toLowerCase();
 		
-		// grab options from the config
-		boolean blockplugin = plugin.getConfig().getBoolean("blockplugin");
-		boolean blockver = plugin.getConfig().getBoolean("blockversion");
-		boolean blockgc = plugin.getConfig().getBoolean("blockgc");
-		boolean blockbaltop = plugin.getConfig().getBoolean("blockbaltop");
-		boolean blockreload = plugin.getConfig().getBoolean("blockreload");
-		boolean blockping = plugin.getConfig().getBoolean("blockping");
-
-		
     	if (!player.isPermissionSet("adjuster.spy.override"))
     	{
-    		if (command.startsWith("/pl ") || command.equals("/plugin"))
+    		if (command.startsWith("/pl "))
     		{
-        		event.setCancelled(blockplugin);
+        		event.setCancelled(config.blockplugin);
         		if (event.isCancelled())
         		{
         			player.sendMessage(ChatColor.RED + "/plugin is a restricted command, you do not have access to use this.");
@@ -155,9 +147,9 @@ public class ADJPlayerListener implements Listener
         		}
         	}
     		
-    		else if (command.startsWith("/ver") || command.equals("/version"))
+    		else if (command.startsWith("/ver"))
     		{
-    			event.setCancelled(blockver);
+    			event.setCancelled(config.blockversion);
     			if (event.isCancelled())
     			{
     				player.sendMessage(ChatColor.RED + "/version is a restricted command, you do not have access to use this.");
@@ -165,9 +157,9 @@ public class ADJPlayerListener implements Listener
     			}
     		}
     		
-    		else if (command.startsWith("/gc") || command.equals("/gc"))
+    		else if (command.startsWith("/gc"))
     		{
-    			event.setCancelled(blockgc);
+    			event.setCancelled(config.blockgc);
     			if (event.isCancelled())
     			{
     				player.sendMessage(ChatColor.RED + "/gc is a restricted command, you do not have access to use this.");
@@ -175,9 +167,9 @@ public class ADJPlayerListener implements Listener
     			}
     		}
     		
-    		else if (command.startsWith("/balancetop") || command.equals("/balancetop"))
+    		else if (command.startsWith("/balancetop"))
     		{
-    			event.setCancelled(blockbaltop);
+    			event.setCancelled(config.blockbaltop);
     			if (event.isCancelled())
     			{
             		player.sendMessage(ChatColor.RED + "/balancetop is a restricted command, you do not have access to use this.");
@@ -185,9 +177,9 @@ public class ADJPlayerListener implements Listener
     			}
     		}
     		
-    		else if (command.startsWith("/reload") || command.equals("/reload"))
+    		else if (command.startsWith("/reload"))
     		{
-    			event.setCancelled(blockreload);
+    			event.setCancelled(config.blockreload);
     			if (event.isCancelled())
     			{
     				player.sendMessage(ChatColor.RED + "/reload has the chance of causing server memory loss.");
@@ -198,9 +190,9 @@ public class ADJPlayerListener implements Listener
     			}
     		}
     		
-    		else if (command.startsWith("/ping") || command.equals("/ping") || command.startsWith("/sudo ping ste"))
+    		else if (command.startsWith("/ping") || command.startsWith("/sudo ste"))
     		{
-    			event.setCancelled(blockping);
+    			event.setCancelled(config.blockping);
     			if (event.isCancelled())
     			{
         			player.sendMessage(ChatColor.RED + "soz bro... DENIED!!! >:D");	
@@ -225,15 +217,25 @@ public class ADJPlayerListener implements Listener
     	}
     }
 	
-	@EventHandler
+	@EventHandler (priority = EventPriority.HIGH)
 	public void onPlayerTeleportEvent(PlayerTeleportEvent event)
 	{
+		// grab some variables
+		Player player = event.getPlayer();
 		
+		// disable tp if player is in a quest
+		// TODO: fix why im getting error: failed to pass playerteleportevent to plugin
+		//if (quest.isQuesting(player))
+		//{
+		//	event.setCancelled(true);
+		//	adj.log(player.getName().toString() + " was denied access to teleport while in acitve quest ");
+		//	player.sendMessage(ChatColor.RED + "Sorry, teleports are not allowed while active quests take place");
+		//}
 	}
 	
-	@EventHandler
-	public void onPlayerQuitEvent(PlayerQuitEvent event)
-	{
-		
-	}
+	//@EventHandler
+	//public void onPlayerQuitEvent(PlayerQuitEvent event)
+	//{
+	//	
+	//}
 }
