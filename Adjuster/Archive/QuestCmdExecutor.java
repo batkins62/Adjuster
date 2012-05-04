@@ -1,4 +1,4 @@
-package com.creepercountry.listeners.Executor;
+package com.creepercountry.listeners.Commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

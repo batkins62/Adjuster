@@ -128,7 +128,7 @@ public class ADJPlayerListener implements Listener
 		
 	}
 	
-	@EventHandler
+	@EventHandler (priority = EventPriority.HIGH)
 	public void onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent event)
 	{
 		// assign variables, to inprove code readability;

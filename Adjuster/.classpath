@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="C:/Users/Brian/Desktop/eclipse3/eclipse/Minecraft/EssentialsChat.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Brian/Desktop/eclipse3/eclipse/Minecraft/EssentialsSpawn.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Brian/Desktop/eclipse3/eclipse/Minecraft/bukkit-1.2.5-R1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Brian/Desktop/eclipse3/eclipse/Minecraft/Vault.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

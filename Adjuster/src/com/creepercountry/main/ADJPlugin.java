@@ -3,14 +3,17 @@ package com.creepercountry.main;
 import java.io.File;
 
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.creepercountry.listeners.ADJPlayerListener;
-//import com.creepercountry.listeners.ADJServerListener;
-import com.creepercountry.listeners.Executor.QuestCmdExecutor;
+import com.creepercountry.listeners.ADJServerListener;
+import com.creepercountry.listeners.Commands.ADJCommandExecutor;
 import com.creepercountry.util.Version;
-//import com.griefcraft.lwc.LWCPlugin;
-//import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
 
 public class ADJPlugin extends JavaPlugin
 {
@@ -20,27 +23,29 @@ public class ADJPlugin extends JavaPlugin
     private Adjuster adj;
     
     /**
+     * Our Plugin instance
+     */
+    private static ADJPlugin instance;
+    
+    /**
      * The listeners
      */
     private ADJPlayerListener playerListener;
     private ADJBlockListener blockListener;
-    //private ADJServerListener serverListener;
+    private ADJServerListener serverListener;
     
     /**
      * the command executor instances
      */
-    //private SpyCmdExecutor SpyExecutor;
-    //private BankCmdExecutor BankExecutor;
-    //private FunCmdExecutor FunExecutor;
-    //private RankCmdExecutor RankExecutor;
-    private QuestCmdExecutor QuestExecutor;
+    private ADJCommandExecutor cmdExecutor;
     
     /**
-     * Grab variables from config
+     * our vault instances and variables
      */
-    // TODO: this cant be here, the darn config hasnt loaded :P
-    //boolean isDebug = getConfig().getBoolean("isDebug");
-    
+    public static Economy econ = null;
+    public static Permission perms = null;
+    public static Chat chat = null;
+
     @Override
     public void onEnable()
     {
@@ -49,12 +54,12 @@ public class ADJPlugin extends JavaPlugin
     	Adjuster.ENABLED = true;
     	
     	// hook into depends, then load our plugin.
-    	//pluginHooks();
+    	pluginHooks();
        	load();
     	
        	// register commands & listeners
-        registerEvents();
         registerCommands();
+        registerEvents();
         
     	// set version, get version, and display
     	ADJInfo.setVersion(getDescription().getVersion());
@@ -84,16 +89,17 @@ public class ADJPlugin extends JavaPlugin
         // Shared Objects
         playerListener = new ADJPlayerListener(this);
         blockListener = new ADJBlockListener(this);
-        //serverListener = new ADJServerListener(this);
+        serverListener = new ADJServerListener(this);
         
         // register event listeners
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(playerListener, this);
         pluginManager.registerEvents(blockListener, this);
-        //pluginManager.registerEvents(serverListener, this);
+        pluginManager.registerEvents(serverListener, this);
         
         // log your success 
         // TODO: **future:display what has been loaded, rather just "im done"**
+        // TODO: use bukkitutils debug instead of auto log to logger
         adj.log("PluginManager has registered our listeners.");
     }
     
@@ -102,54 +108,67 @@ public class ADJPlugin extends JavaPlugin
      */
     private void registerCommands()
     {
-    	// executors for spy
-    	//SpyExecutor = new SpyCmdExecutor(this);
-    	//getCommand("spy").setExecutor(SpyExecutor);
-    	// executors for fun
-    	//FunExecutor = new FunCmdExecutor(this);
-    	//getCommand("casino").setExecutor(FunExecutor);
-    	// executors for banks
-    	//BankExecutor = new BankCmdExecutor(this);
-    	//getCommand("bank").setExecutor(BankExecutor);
-    	// executors for ranking
-    	//RankExecutor = new RankCmdExecutor(this);
-    	//getCommand("ranking").setExecutor(RankExecutor);
-    	// executors for quests
-    	QuestExecutor = new QuestCmdExecutor(this);
-    	getCommand("quest").setExecutor(QuestExecutor);
+    	cmdExecutor = new ADJCommandExecutor();
+    	getCommand("quest").setExecutor(cmdExecutor);
     	
-    	// log our success if... in debug
-    	// TODO: need to iniatise this
-    	//if (isDebug)
-    	//	adj.log("commands loaded to their executors");
+    	// TODO: add debug message to console
     }
 
     /**
      * Check for required plugins to be loaded
+     */
+    // TODO: vault status: 100%
+    private void pluginHooks()
+    {
+        if (!setupEconomy() )
+        {
+            adj.severe(String.format("[%s] - Disabled due to no Vault dependency found!"));
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+        setupPermissions();
+        setupChat();
+    }
+    
+    /**
+     * Depend on Vault.jar
      * @return
      */
-	//lwc: soft
-	//logblock: soft
-	//towny: soft
-    //worldguard: soft
-	//essentials, chat, spawn: depend
-    //pex: depend
-   /* private Object pluginHooks()
+    private boolean setupEconomy()
     {
-    	//lwc
-    	Plugin lwcPlugin = getServer().getPluginManager().getPlugin("LWC");
-    	if(lwcPlugin == null || !(lwcPlugin instanceof LWCPlugin))
-    	{
-    		return null;
+    	if (getServer().getPluginManager().getPlugin("Vault") == null) {
+    		return false;
     	}
-    	//worldguard
-    	Plugin wgPlugin = getServer().getPluginManager().getPlugin("WorldGuard");
-        if (wgPlugin == null || !(wgPlugin instanceof WorldGuardPlugin))
-        {
-            return null;
+    	RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+        	return false;
         }
+        econ = rsp.getProvider();
+        return econ != null;
     }
-    */
+    
+    /**
+     * Setup chat (part of vault) dependancy
+     * @return
+     */
+    private boolean setupChat()
+    {
+        RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
+        chat = rsp.getProvider();
+        return chat != null;
+    }
+
+    /**
+     * Setup permissions (part of vault) dependancy
+     * @return
+     */
+    private boolean setupPermissions()
+    {
+        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+        perms = rsp.getProvider();
+        return perms != null;
+    }
+
     
     /**
      *  load the plugin for full use
@@ -177,5 +196,21 @@ public class ADJPlugin extends JavaPlugin
     public Adjuster getADJ()
     {
     	return adj;
+    }
+    
+    /**
+     * @return the main command executor
+     */
+    public ADJCommandExecutor getCommandExecutor()
+    {
+        return cmdExecutor;
+    }
+    
+    /**
+     * @return the current plugin instance
+     */
+    public static ADJPlugin getInstance()
+    {
+        return instance;
     }
 }
