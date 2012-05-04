@@ -1,8 +1,11 @@
-package com.creepercountry.main;
+package com.creepercountry.listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
+
+import com.creepercountry.main.ADJPlugin;
+import com.creepercountry.main.Adjuster;
 
 public class ADJBlockListener implements Listener
 {
