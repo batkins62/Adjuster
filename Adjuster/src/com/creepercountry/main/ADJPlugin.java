@@ -6,9 +6,8 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.creepercountry.listeners.ADJBlockListener;
+import com.creepercountry.config.Config;
 import com.creepercountry.listeners.ADJPlayerListener;
-import com.creepercountry.listeners.ADJServerListener;
 import com.creepercountry.listeners.Commands.ADJCommandExecutor;
 import com.creepercountry.util.Version;
 
@@ -29,11 +28,17 @@ public class ADJPlugin extends JavaPlugin
     private static ADJPlugin instance;
     
     /**
+     * The config instance
+     */
+    @SuppressWarnings("unused")
+	private Config conf;
+    
+    /**
      * The listeners
      */
     private ADJPlayerListener playerListener;
-    private ADJBlockListener blockListener;
-    private ADJServerListener serverListener;
+    //private ADJBlockListener blockListener;
+    //private ADJServerListener serverListener;
     
     /**
      * the command executor instances
@@ -50,7 +55,7 @@ public class ADJPlugin extends JavaPlugin
     @Override
     public void onEnable()
     {
-    	// create the plugin object
+    	// create the plugin objects
     	adj = new Adjuster(this);
     	Adjuster.ENABLED = true;
     	
@@ -89,14 +94,14 @@ public class ADJPlugin extends JavaPlugin
     {
         // Shared Objects
         playerListener = new ADJPlayerListener(this);
-        blockListener = new ADJBlockListener(this);
-        serverListener = new ADJServerListener(this);
+        //blockListener = new ADJBlockListener(this);
+        //serverListener = new ADJServerListener(this);
         
         // register event listeners
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(playerListener, this);
-        pluginManager.registerEvents(blockListener, this);
-        pluginManager.registerEvents(serverListener, this);
+       // pluginManager.registerEvents(blockListener, this);
+        //pluginManager.registerEvents(serverListener, this);
         
         // log your success 
         // TODO: **future:display what has been loaded, rather just "im done"**
@@ -110,7 +115,7 @@ public class ADJPlugin extends JavaPlugin
     private void registerCommands()
     {
     	cmdExecutor = new ADJCommandExecutor();
-    	getCommand("quest").setExecutor(cmdExecutor);
+    	getCommand("adjuster").setExecutor(cmdExecutor);
     	
     	// TODO: add debug message to console
     }
@@ -123,6 +128,7 @@ public class ADJPlugin extends JavaPlugin
     {
         if (!setupEconomy() )
         {
+        	// TODO: change to bukkitutils fatal
             adj.severe(String.format("[%s] - Disabled due to no Vault dependency found!"));
             getServer().getPluginManager().disablePlugin(this);
             return;
@@ -175,7 +181,7 @@ public class ADJPlugin extends JavaPlugin
      *  load the plugin for full use
      */
     public void load()
-    {    
+    {	
         // if the config isnt there, create a new one
         if(!(new File(getDataFolder(),"config.yml").exists()))
         {
@@ -187,8 +193,13 @@ public class ADJPlugin extends JavaPlugin
         else if(new File(getDataFolder(),"config.yml").exists())
         {
             getConfig().options().copyDefaults(true);
+            this.saveConfig();
             adj.log("Config file found! Loading data...");
         }
+        
+        // TODO: why isnt this working?
+    	// create plugin object
+    	//conf = new Config();
     }
     
     /**

@@ -10,7 +10,7 @@ public final class Config
     /**
      * The plugin instance
      */
-	private ADJPlugin plugin;
+	private ADJPlugin plugin = ADJPlugin.getInstance();
 	
 	/**
 	 * config.yml system section variables.
@@ -36,7 +36,7 @@ public final class Config
 	 */
 	public Vector gold, diamond, redstone, lapis;
 	
-	/**
+	/** 
 	 * Constructor
 	 */
 	public Config()
@@ -54,19 +54,19 @@ public final class Config
 		
 		// grab data from config, set them to variables
 		//// system variables
-		isreloading = config.getBoolean("system.isreloading");
-		isshutdown = config.getBoolean("system.isshutdown");
-		isrunning = config.getBoolean("system.isrunning");
-		isdebug = config.getBoolean("system.isdebug");
+		isreloading = config.getBoolean("system.isreloading", false);
+		isshutdown = config.getBoolean("system.isshutdown", false);
+		isrunning = config.getBoolean("system.isrunning", false);
+		isdebug = config.getBoolean("system.isdebug", false);
 		configversion = config.getInt("system.configversion");
 		//// spy variables
-		blockversion = config.getBoolean("blockcommands.blockversion");
-		blockgc = config.getBoolean("blockcommands.blockgc");
-		blockreload = config.getBoolean("blockcommands.blockreload");
-		blockplugin = config.getBoolean("blockcommands.blockplugin");
-		blockbaltop = config.getBoolean("blockcommands.blockbaltop");
-		blockping = config.getBoolean("blockcommands.blockping");
-		spyexecutors = config.getBoolean("blockcommands.spyexecutors");
+		blockversion = config.getBoolean("blockcommands.blockversion", true);
+		blockgc = config.getBoolean("blockcommands.blockgc", true);
+		blockreload = config.getBoolean("blockcommands.blockreload", true);
+		blockplugin = config.getBoolean("blockcommands.blockplugin", true);
+		blockbaltop = config.getBoolean("blockcommands.blockbaltop", true);
+		blockping = config.getBoolean("blockcommands.blockping", true);
+		spyexecutors = config.getBoolean("blockcommands.spyexecutors", false);
 		//// quest variables
 		gold = config.getVector("quest.gold");
 		diamond = config.getVector("quest.diamond");

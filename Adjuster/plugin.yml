@@ -32,36 +32,14 @@ commands:
 #      permission: adjuster.create.quest
 #      permission-message: You dont't have access to create quest vaults.
 ######QUEST COMMANDS######
-  quest:
-    aliases: adjquest
-    description: enable or disable quest tracking.
-    usage: syntax error! /quest [questname] [start,finish,quit,verify] [target]
-    permission: adjuster.quest
+  adjuster:
+    aliases: adj
+    description: blah
+    usage: syntax error! /adjuster [command]
+    permission: adjuster.use
     permission-message: You dont't have access to this commands.
 ######PERMISSION NODES######
 permissions:
-  adjuster.quest.*:
+  adjuster.spy.override:
     description: ALL quest related permission nodes.
-    default: op
-    children:
-      adjuster.quest.start: true
-      adjuster.quest.quit: true
-      adjuster.quest.finish: true
-      adjuster.quest.verify.others: true
-  adjuster.quest.start:
-    description: 
-    default: true
-  adjuster.quest.quit:
-    description: 
-    default: true
-  adjuster.quest.finish:
-    description: 
-    default: true
-  adjuster.quest.verify:
-    description: 
-    default: true
-  adjuster.quest.verify.others:
-    description: 
-    default: op
-    children:
-      adjuster.quest.verify: true
+    default: false

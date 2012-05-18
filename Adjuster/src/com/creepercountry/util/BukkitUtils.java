@@ -136,6 +136,16 @@ public class BukkitUtils
 			info("DEBUG: " + msg);
 		}
 	}
+	
+	/**
+	 * Log a FATAL error, this will disable plugin.
+	 * 
+	 * @param msg
+	 */
+	public static void fatal(String msg)
+	{
+		// TODO: finish...
+	}
 
 	/**
 	 * Returns the friendly bridgeName of an entity
