@@ -6,7 +6,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.creepercountry.config.Config;
+import com.creepercountry.listeners.ADJBlockListener;
 import com.creepercountry.listeners.ADJPlayerListener;
 import com.creepercountry.listeners.Commands.ADJCommandExecutor;
 import com.creepercountry.util.Version;
@@ -28,16 +28,10 @@ public class ADJPlugin extends JavaPlugin
     private static ADJPlugin instance;
     
     /**
-     * The config instance
-     */
-    @SuppressWarnings("unused")
-	private Config conf;
-    
-    /**
      * The listeners
      */
     private ADJPlayerListener playerListener;
-    //private ADJBlockListener blockListener;
+    private ADJBlockListener blockListener;
     //private ADJServerListener serverListener;
     
     /**
@@ -94,13 +88,13 @@ public class ADJPlugin extends JavaPlugin
     {
         // Shared Objects
         playerListener = new ADJPlayerListener(this);
-        //blockListener = new ADJBlockListener(this);
+        blockListener = new ADJBlockListener(this);
         //serverListener = new ADJServerListener(this);
         
         // register event listeners
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(playerListener, this);
-       // pluginManager.registerEvents(blockListener, this);
+        pluginManager.registerEvents(blockListener, this);
         //pluginManager.registerEvents(serverListener, this);
         
         // log your success 

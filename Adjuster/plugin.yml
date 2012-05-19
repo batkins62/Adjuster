@@ -41,5 +41,9 @@ commands:
 ######PERMISSION NODES######
 permissions:
   adjuster.spy.override:
-    description: ALL quest related permission nodes.
+    description: fill this out.
+    default: false
+    
+  adjuster.spawner.override:
+    description: fill this out.
     default: false
