@@ -4,8 +4,8 @@ description: Extends functionality of Essentials.
 author: stealth62
 load: POSTWORLD
 main: com.creepercountry.main.ADJPlugin
-depend: [Essentials, EssentialsChat, PermissionsEx]
-softdepend: [LWC, WorldGuard, LogBlock, Towny]
+depend: [Essentials, PermissionsEx]
+softdepend: [LWC, WorldGuard]
 commands:
 ######CONFIRM COMMANDS######
 #   reload confirm:

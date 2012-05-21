@@ -11,8 +11,8 @@ import java.util.regex.Pattern;
 * 1.0.0 > 1.0.0-beta2
 * 1.0.0-beta2 > 1.0.0-alpha3
 */
-public final class Version implements Comparable<Object> {
-
+public final class Version implements Comparable
+{
     /**
      * Release levels that can be used
      */
